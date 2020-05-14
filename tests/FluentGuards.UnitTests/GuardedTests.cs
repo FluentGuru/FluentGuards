@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace FluentGuards.UnitTests
 {
-    public class Tests
+    public class GuardedTests
     {
 
         [Test]
@@ -12,6 +12,15 @@ namespace FluentGuards.UnitTests
 
             Assert.IsTrue(guarded.IsGuarded);
             Assert.AreEqual("GUARDED", guarded.Subject);
+        }
+
+        [Test]
+        public void ShouldCastBooleanCorrectly()
+        {
+            var guarded = (Guarded<string>)false;
+
+            Assert.IsFalse(guarded.IsGuarded);
+            Assert.AreEqual(default(string), guarded.Subject);
         }
     }
 }
