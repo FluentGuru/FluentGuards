@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FluentGuards
 { 
-    public struct Guarded<T>
+    public readonly struct Guarded<T>
     {
         internal Guarded(T subject, bool isGuarded)
         {
