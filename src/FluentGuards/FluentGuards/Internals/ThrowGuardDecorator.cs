@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FluentGuards.Internals
+namespace FluentGuards
 {
     internal class ThrowGuardDecorator<TGuard, T> : GuardDecoratorBase<TGuard, T>, IGuard<T> where TGuard : IGuard<T>
     {

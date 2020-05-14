@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentGuards.Internals
+namespace FluentGuards
 {
     internal abstract class GuardDecoratorBase<TGuard, T> : IGuard<T> where TGuard : IGuard<T>
     {
