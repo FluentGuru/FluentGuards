@@ -23,7 +23,7 @@ namespace FluentGuards.UnitTests
         {
             string value = "";
 
-            Assert.Throws<ArgumentNullException>(() => value.NotEmpty().Guard());
+            Assert.Throws<NotEmptyGuardFailedException>(() => value.NotEmpty().Guard());
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace FluentGuards.UnitTests
         {
             var value = Task.FromResult("");
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => value.NotEmpty().GuardAsync());
+            Assert.ThrowsAsync<NotEmptyGuardFailedException>(() => value.NotEmpty().GuardAsync());
         }
     }
 }

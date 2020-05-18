@@ -10,9 +10,9 @@ namespace FluentGuards
         
 
         public static IGuard<T> NotNull<T>(this T subject) where T : class
-            => new SimpleGuard<T>(subject, s => s != null, new ArgumentNullException("subject", "Subject cannot be null"));
+            => new SimpleGuard<T>(subject, s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
 
         public static IAsyncGuard<T> NotNull<T>(this Task<T> subject) where T : class
-            => new AsyncSimpleGuard<T>(subject, s => s != null, new ArgumentNullException("subject", "Subject cannot be null"));
+            => new AsyncSimpleGuard<T>(subject, s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
     }
 }

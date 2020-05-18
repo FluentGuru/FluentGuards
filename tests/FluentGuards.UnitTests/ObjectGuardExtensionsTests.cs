@@ -23,9 +23,10 @@ namespace FluentGuards.UnitTests
         {
             string obj = null;
 
-            Assert.Throws<ArgumentNullException>(() => obj.NotNull().Guard());
+            Assert.Throws<NotNullGuardFailedException>(() => obj.NotNull().Guard());
         }
 
+        [Test]
         public async Task ShouldTryGuardAgainstNullObjectsAsync()
         {
             var obj = Task.FromResult<string>(null);
@@ -40,7 +41,7 @@ namespace FluentGuards.UnitTests
         {
             var obj = Task.FromResult<string>(null);
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => obj.NotNull().GuardAsync());
+            Assert.ThrowsAsync<NotNullGuardFailedException>(() => obj.NotNull().GuardAsync());
         }
     }
 }

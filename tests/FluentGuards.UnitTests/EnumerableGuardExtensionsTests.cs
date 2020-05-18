@@ -34,7 +34,7 @@ namespace FluentGuards.UnitTests
         {
             var empty = Task.FromResult(Enumerable.Empty<string>());
 
-            Assert.Throws<ArgumentNullException>(() => empty.NotEmpty().Guard());
+            Assert.Throws<NotEmptyGuardFailedException>(() => empty.NotEmpty().Guard());
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace FluentGuards.UnitTests
         {
             var empty = Task.FromResult(Enumerable.Empty<string>());
 
-            Assert.ThrowsAsync<ArgumentNullException>(() => empty.NotEmpty().GuardAsync());
+            Assert.ThrowsAsync<NotEmptyGuardFailedException>(() => empty.NotEmpty().GuardAsync());
         }
     }
 }
