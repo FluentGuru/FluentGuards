@@ -42,15 +42,5 @@ namespace FluentGuards.UnitTests
 
             Assert.ThrowsAsync<ArgumentNullException>(() => obj.NotNull().GuardAsync());
         }
-
-        [Test]
-        public void ShouldThrowCustomExceptionAgainstNullObjects()
-        {
-            string obj = null;
-
-            var guard = obj.NotNull().Throw(new InvalidOperationException());
-
-            Assert.Throws<InvalidOperationException>(() => guard.Guard());
-        }
     }
 }
