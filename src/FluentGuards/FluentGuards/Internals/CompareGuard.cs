@@ -21,7 +21,7 @@ namespace FluentGuards
 
         public override Guarded<T> TryGuard()
         {
-            if(Subject.CompareTo(target) == (int)CompareType)
+            if (Subject.IsMatch(target, CompareType))
             {
                 return Subject;
             }
@@ -47,7 +47,7 @@ namespace FluentGuards
         public async override Task<Guarded<T>> TryGuardAsync()
         {
             var value = await Subject;
-            if(value.CompareTo(target) == (int)CompareType)
+            if (value.IsMatch(target, CompareType))
             {
                 return value;
             }

@@ -71,5 +71,35 @@ namespace FluentGuards.UnitTests
             Assert.DoesNotThrow(() => value.GreaterOrEqualThan(2).Guard());
             Assert.Throws<CompareGuardFailedException>(() => value.GreaterOrEqualThan(3).Guard());
         }
+
+        [Test]
+        public void ShouldGuardForGreaterOrEqualThanValuesAsync()
+        {
+            var value = Task.FromResult(2);
+
+            Assert.DoesNotThrowAsync(() => value.GreaterOrEqualThan(1).GuardAsync());
+            Assert.DoesNotThrowAsync(() => value.GreaterOrEqualThan(2).GuardAsync());
+            Assert.ThrowsAsync<CompareGuardFailedException>(() => value.GreaterOrEqualThan(3).GuardAsync());
+        }
+
+        [Test]
+        public void ShouldGuardForLessOrEqualThanValues()
+        {
+            var value = 2;
+
+            Assert.DoesNotThrow(() => value.LessOrEqualThan(3).Guard());
+            Assert.DoesNotThrow(() => value.LessOrEqualThan(2).Guard());
+            Assert.Throws<CompareGuardFailedException>(() => value.LessOrEqualThan(1).Guard());
+        }
+
+        [Test]
+        public void ShouldGuardForLessOrEqualThanValuesAsync()
+        {
+            var value = Task.FromResult(2);
+
+            Assert.DoesNotThrowAsync(() => value.LessOrEqualThan(3).GuardAsync());
+            Assert.DoesNotThrowAsync(() => value.LessOrEqualThan(2).GuardAsync());
+            Assert.ThrowsAsync<CompareGuardFailedException>(() => value.LessOrEqualThan(1).GuardAsync());
+        }
     }
 }

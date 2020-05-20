@@ -4,13 +4,12 @@ using System.Text;
 
 namespace FluentGuards
 {
-    [Flags]
-    public enum CompareGuardTypes : int
+    public enum CompareGuardTypes
     {
-        GreaterThan = 1,
-        Equals = 0,
-        LessThan = -1,
-        GreaterOrEqualThan = GreaterThan | Equals,
-        LessOrEqualThan = LessThan | Equals
+        Equals,
+        GreaterThan,
+        LessThan,
+        GreaterOrEqualThan,
+        LessOrEqualThan,
     }
 }
