@@ -8,23 +8,24 @@ namespace FluentGuards
     internal class CombinedGuard<T> : CombinedGuardBase<T>
     {
         private readonly IGuard<T> guard;
-        private readonly Func<T, IGuard<T>> predicate;
+        private readonly IGuard<T> target;
 
-        public CombinedGuard(IGuard<T> guard, Func<T, IGuard<T>> predicate, GuardCombinationTypes combinationType) : base(combinationType)
+        public CombinedGuard(IGuard<T> guard, IGuard<T> target, GuardCombinationTypes combinationType) : base(combinationType)
         {
             this.guard = guard;
-            this.predicate = predicate;
+            this.target = target;
         }
 
         public override Guarded<T> TryGuard()
         {
             var leftGuarded = guard.TryGuard();
+            var rightGuarded = target.TryGuard();
             switch (CombinationType)
             {
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && predicate(leftGuarded).TryGuard())):
-                    return leftGuarded;
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || predicate(leftGuarded).TryGuard())):
-                    return leftGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && rightGuarded)):
+                    return leftGuarded ? leftGuarded : rightGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || rightGuarded)):
+                    return leftGuarded ? leftGuarded : rightGuarded;
                 default:
                     return false;
             }
@@ -34,27 +35,26 @@ namespace FluentGuards
     internal class AsyncCombinedGuard<T> : AsyncCombinedGuardBase<T>
     {
         private readonly IAsyncGuard<T> guard;
-        private readonly Func<Task<T>, IAsyncGuard<T>> predicate;
+        private readonly IAsyncGuard<T> target;
 
-        public AsyncCombinedGuard(IAsyncGuard<T> guard, Func<Task<T>, IAsyncGuard<T>> predicate, GuardCombinationTypes combinationType) : base(combinationType)
+        public AsyncCombinedGuard(IAsyncGuard<T> guard, IAsyncGuard<T> target, GuardCombinationTypes combinationType) : base(combinationType)
         {
             this.guard = guard;
-            this.predicate = predicate;
+            this.target = target;
         }
 
         public override Guarded<T> TryGuard() => TryGuardAsync().GetAwaiter().GetResult();
 
         public async override Task<Guarded<T>> TryGuardAsync()
         {
-            var leftGuardedTask = guard.TryGuardAsync();
-            var leftSubject = leftGuardedTask.AsSubjectTask();
-            var leftGuarded = await leftGuardedTask;
+            var leftGuarded = await guard.TryGuardAsync();
+            var rightGuarded = await target.TryGuardAsync();
             switch (CombinationType)
             {
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && await predicate(leftSubject).TryGuardAsync())):
-                    return leftGuarded;
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || await predicate(leftSubject).TryGuardAsync())):
-                    return leftGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && rightGuarded)):
+                    return leftGuarded ? leftGuarded : rightGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || rightGuarded)):
+                    return leftGuarded ? leftGuarded : rightGuarded;
                 default:
                     return false;
             }

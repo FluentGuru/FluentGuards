@@ -20,6 +20,8 @@ namespace FluentGuards
                     return compare > 0;
                 case CompareGuardTypes.Equals:
                     return compare == 0;
+                case CompareGuardTypes.NotEquals:
+                    return compare != 0;
                 case CompareGuardTypes.LessThan:
                     return compare < 0;
                 case CompareGuardTypes.GreaterOrEqualThan:

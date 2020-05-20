@@ -7,6 +7,7 @@ namespace FluentGuards
     public enum CompareGuardTypes
     {
         Equals,
+        NotEquals,
         GreaterThan,
         LessThan,
         GreaterOrEqualThan,

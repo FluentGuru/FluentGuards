@@ -27,6 +27,24 @@ namespace FluentGuards.UnitTests
         }
 
         [Test]
+        public void ShouldGuardForNotEqualValues()
+        {
+            var value = 1;
+
+            Assert.DoesNotThrow(() => value.NotEqualsTo(2).Guard());
+            Assert.Throws<CompareGuardFailedException>(() => value.NotEqualsTo(1).Guard());
+        }
+
+        [Test]
+        public void ShouldGuardForNotEqualValuesAsync()
+        {
+            var value = Task.FromResult(1);
+
+            Assert.DoesNotThrowAsync(() => value.NotEqualsTo(2).GuardAsync());
+            Assert.ThrowsAsync<CompareGuardFailedException>(() => value.NotEqualsTo(1).GuardAsync());
+        }
+
+        [Test]
         public void ShouldGuardForGreaterThanValues()
         {
             var value = 2;

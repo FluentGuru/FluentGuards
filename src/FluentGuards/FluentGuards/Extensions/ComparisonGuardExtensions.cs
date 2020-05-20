@@ -19,6 +19,12 @@ namespace FluentGuards
         public static IAsyncCompareGuard<T> EqualsTo<T>(this Task<T> subject, T target) where T : IComparable<T>
             => subject.Compare(target, CompareGuardTypes.Equals);
 
+        public static ICompareGuard<T> NotEqualsTo<T>(this T subject, T target) where T : IComparable<T>
+            => subject.Compare(target, CompareGuardTypes.NotEquals);
+
+        public static IAsyncCompareGuard<T> NotEqualsTo<T>(this Task<T> subject, T target) where T : IComparable<T>
+            => subject.Compare(target, CompareGuardTypes.NotEquals);
+
         public static ICompareGuard<T> GreaterThan<T>(this T subject, T target) where T : IComparable<T>
             => subject.Compare(target, CompareGuardTypes.GreaterThan);
 
