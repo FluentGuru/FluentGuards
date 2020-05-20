@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FluentGuards
 { 
@@ -20,5 +21,6 @@ namespace FluentGuards
 
         public static implicit operator Guarded<T>(T subject) => new Guarded<T>(subject, true);
         public static implicit operator Guarded<T>(bool isGuarded) => new Guarded<T>(default, isGuarded);
+
     }
 }

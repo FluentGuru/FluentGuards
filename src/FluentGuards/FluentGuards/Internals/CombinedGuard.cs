@@ -19,34 +19,24 @@ namespace FluentGuards
         public override Guarded<T> TryGuard()
         {
             var leftGuarded = guard.TryGuard();
-            var rightGuarded = predicate(leftGuarded).TryGuard();
-            var guarded = false;
             switch (CombinationType)
             {
-                case GuardCombinationTypes.And:
-                    guarded = leftGuarded && rightGuarded;
-                    break;
-                case GuardCombinationTypes.Or:
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && predicate(leftGuarded).TryGuard())):
+                    return leftGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || predicate(leftGuarded).TryGuard())):
+                    return leftGuarded;
                 default:
-                    guarded = leftGuarded || rightGuarded;
-                    break;
+                    return false;
             }
-
-            if(guarded)
-            {
-                return leftGuarded;
-            }
-
-            return guarded;
         }
     }
 
     internal class AsyncCombinedGuard<T> : AsyncCombinedGuardBase<T>
     {
         private readonly IAsyncGuard<T> guard;
-        private readonly Func<T, IAsyncGuard<T>> predicate;
+        private readonly Func<Task<T>, IAsyncGuard<T>> predicate;
 
-        public AsyncCombinedGuard(IAsyncGuard<T> guard, Func<T, IAsyncGuard<T>> predicate, GuardCombinationTypes combinationType) : base(combinationType)
+        public AsyncCombinedGuard(IAsyncGuard<T> guard, Func<Task<T>, IAsyncGuard<T>> predicate, GuardCombinationTypes combinationType) : base(combinationType)
         {
             this.guard = guard;
             this.predicate = predicate;
@@ -56,26 +46,18 @@ namespace FluentGuards
 
         public async override Task<Guarded<T>> TryGuardAsync()
         {
-            var leftGuarded = await guard.TryGuardAsync();
-            var rightGuarded = await predicate(leftGuarded).TryGuardAsync();
-            var guarded = false;
+            var leftGuardedTask = guard.TryGuardAsync();
+            var leftSubject = leftGuardedTask.AsSubjectTask();
+            var leftGuarded = await leftGuardedTask;
             switch (CombinationType)
             {
-                case GuardCombinationTypes.And:
-                    guarded = leftGuarded && rightGuarded;
-                    break;
-                case GuardCombinationTypes.Or:
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && await predicate(leftSubject).TryGuardAsync())):
+                    return leftGuarded;
+                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || await predicate(leftSubject).TryGuardAsync())):
+                    return leftGuarded;
                 default:
-                    guarded = leftGuarded || rightGuarded;
-                    break;
+                    return false;
             }
-
-            if(guarded)
-            {
-                return leftGuarded;
-            }
-
-            return guarded;
         }
     }
 }
