@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FluentGuards
 {
+    /// <summary>
+    /// Exception thrown when a comparison guard fails
+    /// </summary>
     public class CompareGuardFailedException : GuardFailedException
     {
         public CompareGuardFailedException()

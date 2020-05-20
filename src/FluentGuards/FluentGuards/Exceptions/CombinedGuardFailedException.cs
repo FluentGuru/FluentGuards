@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FluentGuards
 {
+    /// <summary>
+    /// Exception thrown when a combined guard fails
+    /// </summary>
     public class CombinedGuardFailedException : GuardFailedException
     {
         public CombinedGuardFailedException()

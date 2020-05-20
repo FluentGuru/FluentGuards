@@ -10,7 +10,7 @@ namespace FluentGuards
         private readonly IGuard<T> guard;
         private readonly IGuard<T> target;
 
-        public CombinedGuard(IGuard<T> guard, IGuard<T> target, GuardCombinationTypes combinationType) : base(combinationType)
+        public CombinedGuard(IGuard<T> guard, IGuard<T> target, GuardCombinationModes combinationType) : base(combinationType)
         {
             this.guard = guard;
             this.target = target;
@@ -20,11 +20,11 @@ namespace FluentGuards
         {
             var leftGuarded = guard.TryGuard();
             var rightGuarded = target.TryGuard();
-            switch (CombinationType)
+            switch (Mode)
             {
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && rightGuarded)):
+                case GuardCombinationModes c when (c == GuardCombinationModes.And && (leftGuarded && rightGuarded)):
                     return leftGuarded ? leftGuarded : rightGuarded;
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || rightGuarded)):
+                case GuardCombinationModes c when (c == GuardCombinationModes.Or && (leftGuarded || rightGuarded)):
                     return leftGuarded ? leftGuarded : rightGuarded;
                 default:
                     return false;
@@ -37,7 +37,7 @@ namespace FluentGuards
         private readonly IAsyncGuard<T> guard;
         private readonly IAsyncGuard<T> target;
 
-        public AsyncCombinedGuard(IAsyncGuard<T> guard, IAsyncGuard<T> target, GuardCombinationTypes combinationType) : base(combinationType)
+        public AsyncCombinedGuard(IAsyncGuard<T> guard, IAsyncGuard<T> target, GuardCombinationModes combinationType) : base(combinationType)
         {
             this.guard = guard;
             this.target = target;
@@ -49,11 +49,11 @@ namespace FluentGuards
         {
             var leftGuarded = await guard.TryGuardAsync();
             var rightGuarded = await target.TryGuardAsync();
-            switch (CombinationType)
+            switch (Mode)
             {
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.And && (leftGuarded && rightGuarded)):
+                case GuardCombinationModes c when (c == GuardCombinationModes.And && (leftGuarded && rightGuarded)):
                     return leftGuarded ? leftGuarded : rightGuarded;
-                case GuardCombinationTypes c when (c == GuardCombinationTypes.Or && (leftGuarded || rightGuarded)):
+                case GuardCombinationModes c when (c == GuardCombinationModes.Or && (leftGuarded || rightGuarded)):
                     return leftGuarded ? leftGuarded : rightGuarded;
                 default:
                     return false;

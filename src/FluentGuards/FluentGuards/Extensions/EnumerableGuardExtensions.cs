@@ -8,7 +8,7 @@ namespace FluentGuards
 {
     public static class EnumerableGuardExtensions
     {
-        public static IGuard<IEnumerable<T>> NotEmpty<T>(this IEnumerable<T> subject) => new SimpleGuard<IEnumerable<T>>(subject, s => s != null && s.Any(), new NotEmptyGuardFailedException("Subject cannot be null or empty"));
-        public static IAsyncGuard<IEnumerable<T>> NotEmpty<T>(this Task<IEnumerable<T>> subject) => new AsyncSimpleGuard<IEnumerable<T>>(subject, s => s != null && s.Any(), new NotEmptyGuardFailedException("Subject cannot be null or empty"));
+        public static IGuard<IEnumerable<T>> NotEmpty<T>(this IEnumerable<T> subject) => subject.Guard(s => s != null && s.Any(), new NotEmptyGuardFailedException("Subject cannot be null or empty"));
+        public static IAsyncGuard<IEnumerable<T>> NotEmpty<T>(this Task<IEnumerable<T>> subject) => subject.GuardAsync(s => s != null && s.Any(), new NotEmptyGuardFailedException("Subject cannot be null or empty"));
     }
 }

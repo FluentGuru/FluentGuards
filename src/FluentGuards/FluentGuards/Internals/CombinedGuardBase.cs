@@ -7,12 +7,12 @@ namespace FluentGuards
 {
     internal abstract class CombinedGuardBase<T> : ICombinedGuard<T>
     {
-        public GuardCombinationTypes CombinationType { get; }
+        public GuardCombinationModes Mode { get; }
 
 
-        public CombinedGuardBase(GuardCombinationTypes combinationType)
+        public CombinedGuardBase(GuardCombinationModes combinationType)
         {
-            CombinationType = combinationType;
+            Mode = combinationType;
         }
 
         public virtual Exception GetGuardException() => new CombinedGuardFailedException("Combined guard failed");
@@ -33,7 +33,7 @@ namespace FluentGuards
 
     internal abstract class AsyncCombinedGuardBase<T> : CombinedGuardBase<T>, IAsyncCombinedGuard<T>
     {
-        public AsyncCombinedGuardBase(GuardCombinationTypes combinationType) : base(combinationType)
+        public AsyncCombinedGuardBase(GuardCombinationModes combinationType) : base(combinationType)
         {
         }
 

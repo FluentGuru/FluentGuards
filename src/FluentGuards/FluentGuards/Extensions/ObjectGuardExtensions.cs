@@ -7,12 +7,17 @@ namespace FluentGuards
 {
     public static class ObjectGuardExtensions
     {
+        public static IGuard<T> Guard<T>(this T subject, Func<T, bool> predicate, Exception exception)
+            => new SimpleGuard<T>(subject, predicate, exception);
+
+        public static IAsyncGuard<T> GuardAsync<T>(this Task<T> subject, Func<T, bool> predicate, Exception exception)
+            => new AsyncSimpleGuard<T>(subject, predicate, exception);
         
 
         public static IGuard<T> NotNull<T>(this T subject) where T : class
-            => new SimpleGuard<T>(subject, s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
+            => subject.Guard(s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
 
         public static IAsyncGuard<T> NotNull<T>(this Task<T> subject) where T : class
-            => new AsyncSimpleGuard<T>(subject, s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
+            => subject.GuardAsync(s => s != null, new NotNullGuardFailedException("Subject cannot be null"));
     }
 }
