@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FluentGuards
 {
+    /// <summary>
+    /// Base exception for all guard failures
+    /// </summary>
     public class GuardFailedException : Exception
     {
         public GuardFailedException()

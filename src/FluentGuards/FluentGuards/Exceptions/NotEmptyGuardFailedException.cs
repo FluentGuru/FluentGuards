@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FluentGuards
 {
+    /// <summary>
+    /// Exception thrown by not empty guard failures
+    /// </summary>
     public class NotEmptyGuardFailedException : GuardFailedException
     {
         public NotEmptyGuardFailedException()

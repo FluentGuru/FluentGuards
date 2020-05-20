@@ -5,6 +5,9 @@ using System.Text;
 
 namespace FluentGuards
 {
+    /// <summary>
+    /// Exception throw by not null guard failures
+    /// </summary>
     public class NotNullGuardFailedException : GuardFailedException
     {
         public NotNullGuardFailedException()
